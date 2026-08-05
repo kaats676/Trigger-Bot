@@ -19,14 +19,23 @@ jobs:
         java-version: '21'
         distribution: 'microsoft'
 
-    # ОФИЦИАЛЬНЫЙ НАДЁЖНЫЙ ШАГ: Сам генерирует рабочий gradle-wrapper в изолированной среде
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
       with:
         gradle-version: 8.8
-        generate-job-summary: true
 
-    # Запуск сборки встроенной системной командой
+    # ХИТРОСТЬ: Принудительно перезаписываем settings.gradle прямо на сервере перед сборкой!
+    - name: Force Fix Settings File
+      run: |
+        echo 'pluginManagement { repositories { maven { url = "https://fabricmc.net" }; gradlePluginPortal(); mavenCentral() } }' > settings.gradle
+        echo 'rootProject.name = "triggerbot"' >> settings.gradle
+
+    # ХИТРОСТЬ 2: Принудительно заменяем версию плагина на стабильную прямо в файле build.gradle!
+    - name: Force Fix Build File Version
+      run: |
+        sed -i "s/1.7-SNAPSHOT/1.7.4/g" build.gradle
+
+    # Запускаем сборку — теперь у Gradle нет шансов использовать старые ссылки
     - name: Build Mod with Gradle
       run: gradle build
 
