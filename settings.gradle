@@ -1,14 +1,14 @@
 pluginManagement {
     repositories {
-        maven { url = "https://fabricmc.net" }
-        mavenCentral()
+        maven { url = "https://maven.fabricmc.net/" }
         gradlePluginPortal()
+        mavenCentral()
     }
 }
 
 dependencyResolutionManagement {
     repositories {
-        maven { url = "https://fabricmc.net" }
+        maven { url = "https://maven.fabricmc.net/" }
         mavenCentral()
     }
 }
