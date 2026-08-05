@@ -19,8 +19,6 @@ jobs:
         java-version: '21'
         distribution: 'microsoft'
 
-    # ТЕПЕРЬ ССЫЛКИ 100% ПРАВИЛЬНЫЕ: Скачиваем оригинальный враппер Fabric
-     Miz-p gradle/wrapper
     - name: Download Official Fabric Wrapper
       run: |
         curl -sL https://githubusercontent.com -o gradlew
@@ -29,7 +27,6 @@ jobs:
         curl -sL https://github.com -o gradle/wrapper/gradle-wrapper.jar
         chmod +x gradlew
 
-    # Запуск сборки через изолированный и гарантированно рабочий скрипт Fabric
     - name: Build Mod with Fabric Wrapper
       run: ./gradlew build
 
