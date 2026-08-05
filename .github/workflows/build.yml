@@ -19,18 +19,16 @@ jobs:
         java-version: '21'
         distribution: 'microsoft'
 
-    # ХИТРОСТЬ: Сам GitHub скачивает официальный работающий gradlew для Fabric
-    - name: Download Gradle Wrapper Components
-      run: |
-        wget https://githubusercontent.com
-        mkdir -p gradle/wrapper
-        wget https://githubusercontent.com -O gradle/wrapper/gradle-wrapper.properties
-        wget https://github.com -O gradle/wrapper/gradle-wrapper.jar
-        chmod +x gradlew
+    # ОФИЦИАЛЬНЫЙ НАДЁЖНЫЙ ШАГ: Сам генерирует рабочий gradle-wrapper в изолированной среде
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v4
+      with:
+        gradle-version: 8.8
+        generate-job-summary: true
 
-    # Собираем официальным изолированным методом Fabric
-    - name: Build Mod with Gradle Wrapper
-      run: ./gradlew build
+    # Запуск сборки встроенной системной командой
+    - name: Build Mod with Gradle
+      run: gradle build
 
     - name: Upload Finished Jar
       uses: actions/upload-artifact@v4
