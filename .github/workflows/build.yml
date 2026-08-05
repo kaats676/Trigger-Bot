@@ -24,11 +24,7 @@ jobs:
       with:
         gradle-version: 8.8
 
+    # Мы явно указываем Gradle запустить сборку внутри папки Trigger-Bot
     - name: Build Mod with Gradle
       run: gradle build
-
-    - name: Upload Finished Jar
-      uses: actions/upload-artifact@v4
-      with:
-        name: TriggerBot-Fabric-1.21.1
-        path: build/libs/*-snapshot.jar
+      working-directory: Trigger-Bot
