@@ -1,0 +1,8 @@
+pluginManagement {
+    repositories {
+        maven { url = "https://fabricmc.net" }
+        mavenCentral()
+    }
+}
+
+rootProject.name = 'triggerbot'
