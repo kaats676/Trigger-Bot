@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "triggerbot",
+  "version": "1.0.0",
+  "name": "TriggerBot Mod",
+  "description": "Custom triggerbot mod with critical hits logic.",
+  "authors": [ "kaats676" ],
+  "contact": {},
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.example.triggerbot.TriggerBotMod"
+    ]
+  },
+  "mixins": [
+    "triggerbot.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
