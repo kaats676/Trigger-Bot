@@ -10,19 +10,8 @@ base {
     archivesName = project.archives_base_name
 }
 
-// Этот блок указывает Gradle, где искать сам плагин Loom при сборке без враппера
-pluginManagement {
-    repositories {
-        maven {
-            url = 'https://maven.fabricmc.net/'
-        }
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
-
 repositories {
-    maven { url = "https://maven.fabricmc.net/" }
+    maven { url = "https://fabricmc.net" }
     mavenCentral()
 }
 
