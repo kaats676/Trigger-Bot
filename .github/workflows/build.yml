@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Trigger-Bot
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -19,17 +22,14 @@ jobs:
         java-version: '21'
         distribution: 'microsoft'
 
-    # ОФИЦИАЛЬНЫЙ ШАГ: Сам разворачивает Gradle и генерирует чистый враппер
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
       with:
         gradle-version: 8.8
 
-    # Автоматическая генерация файлов враппера на стороне сервера
     - name: Generate Wrapper Files
       run: gradle wrapper
 
-    # Сборка официальным изолированным методом Fabric через созданный gradlew
     - name: Build Mod with Gradle Wrapper
       run: ./gradlew build
 
@@ -37,4 +37,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: TriggerBot-Fabric-1.21.1
-        path: build/libs/*-snapshot.jar
+        path: Trigger-Bot/build/libs/*-snapshot.jar
