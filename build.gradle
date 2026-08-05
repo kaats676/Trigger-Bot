@@ -1,21 +1,7 @@
-buildscript {
-    repositories {
-        maven { url "https://fabricmc.net" }
-        gradlePluginPortal()
-        mavenCentral()
-    }
-    dependencies {
-        // Подключаем сам плагин Loom как библиотеку сборщика
-        classpath "net.fabricmc:fabric-loom:1.7-SNAPSHOT"
-    }
-}
-
 plugins {
+    id 'net.fabricmc.fabric-loom' version '1.7.4'
     id 'maven-publish'
 }
-
-// Применяем плагин через его прямой внутренний класс, минуя поиск по ID в реестрах
-apply plugin: net.fabricmc.loom.LoomGradlePlugin
 
 version = project.mod_version
 group = project.maven_group
