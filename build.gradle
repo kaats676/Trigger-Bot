@@ -3,11 +3,11 @@ plugins {
     id 'maven-publish'
 }
 
-version = project.mod_version
-group = project.maven_group
+version = '1.0.0'
+group = 'com.example' // Можно заменить на свое, например 'net.triggerbot'
 
 base {
-    archivesName = project.archives_base_name
+    archivesName = 'Trigger-Bot'
 }
 
 repositories {
@@ -16,30 +16,39 @@ repositories {
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    // Minecraft и официальный маппинг Yarn для 1.21.1
+    minecraft "com.mojang:minecraft:1.21.1"
+    mappings "net.fabricmc:yarn:1.21.1+build.2:v2"
+
+    // Загрузчик Fabric (обязательно)
+    modImplementation "net.fabricmc:fabric-loader:0.16.10"
+
+    // Fabric API (модули событий, предметов и т.д., раскомментируйте если используете)
+    // modImplementation "net.fabricmc.fabric-api:fabric-api:0.103.0+1.21.1"
 }
 
 processResources {
     inputs.property "version", project.version
-    inputs.property "minecraft_version", project.minecraft_version
-    inputs.property "loader_version", project.loader_version
+    filteringCharset "UTF-8"
 
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version,
-               "minecraft_version": project.minecraft_version,
-               "loader_version": project.loader_version
+    filesNotMatching("*.png") {
+        expand "version": project.version
     }
 }
 
 tasks.withType(JavaCompile).configureEach {
-    it.options.release = 21
+    it.options.encoding = "UTF-8"
+    it.options.release.set(21)
 }
 
 java {
     withSourcesJar()
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.base.archivesName.get()}"}
+    }
 }
