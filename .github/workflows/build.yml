@@ -20,16 +20,13 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
 
-    - name: Setup Gradle
+    # Используем официальный экшен сборки, который автоматически
+    # подхватит настройки репозиториев из корневого settings.gradle
+    - name: Setup and Run Gradle
       uses: gradle/actions/setup-gradle@v4
       with:
         gradle-version: '8.10'
-
-    # Мы явно указываем флаг -c settings.gradle, чтобы Gradle ПРИНУДИТЕЛЬНО 
-    # прочитал настройки репозиториев из вашего файла, даже если он глючит.
-    # Также собираем в режиме --no-daemon, чтобы избежать кэширования старых ошибок.
-    - name: Build Fabric Mod
-      run: gradle build -c settings.gradle --no-daemon
+        arguments: build --no-daemon
 
     - name: Upload Finished Mod
       uses: actions/upload-artifact@v4
