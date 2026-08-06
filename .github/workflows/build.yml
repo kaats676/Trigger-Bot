@@ -20,23 +20,12 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
 
-    # Используем встроенный в саму систему Ubuntu установщик Gradle.
-    # Он берёт дистрибутив из внутреннего зеркала GitHub, это не тратит ваш интернет и работает мгновенно!
-    - name: Install System Gradle
-      run: |
-        sudo apt-get update-minimal || true
-        sudo apt-get install -y gradle
-        gradle -v
+    # Скачиваем и настраиваем СВЕЖИЙ Gradle 8.10 из официального экшена
+    - name: Setup Modern Gradle
+      uses: gradle/actions/setup-gradle@v4
+      with:
+        gradle-version: '8.10'
 
-    # Запускаем сборку напрямую через системный Gradle
+    # Запускаем сборку через свежеустановленный современный Gradle
     - name: Build Fabric Mod
       run: gradle build --no-daemon
-
-    - name: Upload Finished Mod
-      uses: actions/upload-artifact@v4
-      with:
-        name: fabric-mod-1.21.1
-        path: |
-          build/libs/*.jar
-          !build/libs/*-sources.jar
-          !build/libs/*-dev.jar
