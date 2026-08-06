@@ -20,12 +20,13 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
 
-    # Скачиваем и настраиваем СВЕЖИЙ Gradle 8.10 из официального экшена
-    - name: Setup Modern Gradle
+    # Поднимаем окружение Gradle
+    - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
       with:
         gradle-version: '8.10'
 
-    # Запускаем сборку через свежеустановленный современный Gradle
+    # Принудительно запускаем сборку с полным отключением ЛЮБОГО кэша (--no-build-cache)
+    # Это заставит сервер физически перечитать ваши новые файлы с iPad
     - name: Build Fabric Mod
-      run: gradle build --no-daemon
+      run: gradle build --no-daemon --no-build-cache
