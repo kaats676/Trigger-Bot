@@ -2,12 +2,15 @@ pluginManagement {
     repositories {
         maven {
             name = 'Fabric'
-            url = 'https://maven.fabricmc.net'
+            url = 'https://fabricmc.net'
         }
         mavenCentral()
         gradlePluginPortal()
     }
 }
 
-// Ниже должен идти ваш текущий код из settings.gradle, например:
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
+}
+
 rootProject.name = 'Trigger-Bot'
