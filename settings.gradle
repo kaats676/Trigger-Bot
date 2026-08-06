@@ -7,6 +7,10 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+    plugins {
+        // Объявляем плагин Fabric Loom и его версию прямо здесь
+        id 'net.fabricmc.fabric-loom' version '1.7.4'
+    }
 }
 
 dependencyResolutionManagement {
