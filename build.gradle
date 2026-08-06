@@ -1,36 +1,39 @@
-plugins {
-    id 'net.fabricmc.fabric-loom' version '1.7.4'
-    id 'maven-publish'
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url = "https://maven.fabricmc.net/" }
+    }
+    dependencies {
+        // Подключаем сам плагин Loom как прямую зависимость сборщика
+        classpath "net.fabricmc.fabric-loom:net.fabricmc.fabric-loom.gradle.plugin:1.7.4"
+    }
 }
 
+// Применяем плагины альтернативным способом без блока plugins {}
+apply plugin: 'net.fabricmc.fabric-loom'
+apply plugin: 'maven-publish'
+
 version = '1.0.0'
-group = 'com.example' // Можно заменить на свое, например 'net.triggerbot'
+group = 'com.example'
 
 base {
     archivesName = 'Trigger-Bot'
 }
 
 repositories {
-    maven { url = "https://maven.fabricmc.net" }
+    maven { url = "https://maven.fabricmc.net/" }
     mavenCentral()
 }
 
 dependencies {
-    // Minecraft и официальный маппинг Yarn для 1.21.1
     minecraft "com.mojang:minecraft:1.21.1"
     mappings "net.fabricmc:yarn:1.21.1+build.2:v2"
-
-    // Загрузчик Fabric (обязательно)
     modImplementation "net.fabricmc:fabric-loader:0.16.10"
-
-    // Fabric API (модули событий, предметов и т.д., раскомментируйте если используете)
-    // modImplementation "net.fabricmc.fabric-api:fabric-api:0.103.0+1.21.1"
 }
 
 processResources {
     inputs.property "version", project.version
     filteringCharset "UTF-8"
-
     filesNotMatching("*.png") {
         expand "version": project.version
     }
