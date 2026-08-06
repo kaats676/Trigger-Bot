@@ -22,6 +22,8 @@ jobs:
 
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
+      with:
+        gradle-version: '8.10'
 
     - name: Build Fabric Mod
       run: gradle build
@@ -30,8 +32,6 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: fabric-mod-1.21.1
-        # Исключаем исходники (-sources) и обычные немиксованные jar (-dev), 
-        # чтобы остался только готовый к установке в Майнкрафт файл.
         path: |
           build/libs/*.jar
           !build/libs/*-sources.jar
