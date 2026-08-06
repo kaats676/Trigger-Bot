@@ -1,4 +1,4 @@
-name: Build TriggerBot Jar
+name: Build Fabric Mod (1.21.1)
 
 on:
   push:
@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -17,20 +18,21 @@ jobs:
       uses: actions/setup-java@v4
       with:
         java-version: '21'
-        distribution: 'microsoft'
+        distribution: 'temurin'
 
-    # Ставим Gradle, который умеет работать с фиксированными версиями плагинов напрямую
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
-      with:
-        gradle-version: 8.8
 
-    # Запуск чистой сборки в корневом каталоге
-    - name: Build Mod with Gradle
+    - name: Build Fabric Mod
       run: gradle build
 
-    - name: Upload Finished Jar
+    - name: Upload Finished Mod
       uses: actions/upload-artifact@v4
       with:
-        name: TriggerBot-Fabric-1.21.1
-        path: build/libs/*-snapshot.jar
+        name: fabric-mod-1.21.1
+        # Исключаем исходники (-sources) и обычные немиксованные jar (-dev), 
+        # чтобы остался только готовый к установке в Майнкрафт файл.
+        path: |
+          build/libs/*.jar
+          !build/libs/*-sources.jar
+          !build/libs/*-dev.jar
