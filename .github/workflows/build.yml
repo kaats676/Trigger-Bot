@@ -20,19 +20,22 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
 
-    # Шаг 1: Настраиваем окружение Gradle 8.10
+    # Настраиваем окружение Gradle
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
       with:
         gradle-version: '8.10'
 
-    # Шаг 2: Генерируем локальный скрипт gradlew, которого нет на iPad
+    # Генерируем обёртку, принудительно игнорируя build.gradle,
+    # чтобы избежать циклической ошибки с поиском плагина
     - name: Generate Gradle Wrapper
       run: |
-        gradle wrapper --gradle-version 8.10
+        touch empty.gradle
+        gradle wrapper --gradle-version 8.10 -b empty.gradle --no-daemon
         chmod +x gradlew
+        rm empty.gradle
 
-    # Шаг 3: Запускаем сборку ИМЕННО через сгенерированный ./gradlew
+    # Запускаем сборку ТОЛЬКО через изолированный локальный ./gradlew
     - name: Build Fabric Mod
       run: ./gradlew build --no-daemon
 
