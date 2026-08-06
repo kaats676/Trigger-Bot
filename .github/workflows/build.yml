@@ -20,14 +20,15 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
 
-    # Скачиваем чистый Gradle напрямую, обходя глючные плагины GitHub Actions
-    - name: Install Clean Gradle
+    # Используем встроенный в саму систему Ubuntu установщик Gradle.
+    # Он берёт дистрибутив из внутреннего зеркала GitHub, это не тратит ваш интернет и работает мгновенно!
+    - name: Install System Gradle
       run: |
-        sudo wget -q https://gradle.org
-        sudo unzip -q gradle-8.10-bin.zip -d /opt
-        echo "/opt/gradle-8.10/bin" >> $GITHUB_PATH
+        sudo apt-get update-minimal || true
+        sudo apt-get install -y gradle
+        gradle -v
 
-    # Запускаем сборку напрямую в корне без посредников
+    # Запускаем сборку напрямую через системный Gradle
     - name: Build Fabric Mod
       run: gradle build --no-daemon
 
