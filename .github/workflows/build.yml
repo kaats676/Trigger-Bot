@@ -20,31 +20,22 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
 
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v4
-      with:
-        gradle-version: '8.10'
-
-    # Переходим во вложенную папку Trigger-Bot и создаем обертку там,
-    # где физически лежат файлы build.gradle и settings.gradle
-    - name: Generate Gradle Wrapper
-      working-directory: Trigger-Bot
+    # Скачиваем чистый Gradle напрямую, обходя глючные плагины GitHub Actions
+    - name: Install Clean Gradle
       run: |
-        touch empty.gradle
-        gradle wrapper --gradle-version 8.10 -b empty.gradle --no-daemon
-        chmod +x gradlew
-        rm empty.gradle
+        sudo wget -q https://gradle.org
+        sudo unzip -q gradle-8.10-bin.zip -d /opt
+        echo "/opt/gradle-8.10/bin" >> $GITHUB_PATH
 
-    # Запускаем изолированную сборку строго внутри папки Trigger-Bot
+    # Запускаем сборку напрямую в корне без посредников
     - name: Build Fabric Mod
-      working-directory: Trigger-Bot
-      run: ./gradlew build --no-daemon
+      run: gradle build --no-daemon
 
     - name: Upload Finished Mod
       uses: actions/upload-artifact@v4
       with:
         name: fabric-mod-1.21.1
         path: |
-          Trigger-Bot/build/libs/*.jar
-          !Trigger-Bot/build/libs/*-sources.jar
-          !Trigger-Bot/build/libs/*-dev.jar
+          build/libs/*.jar
+          !build/libs/*-sources.jar
+          !build/libs/*-dev.jar
