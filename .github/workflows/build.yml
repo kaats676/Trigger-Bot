@@ -20,15 +20,21 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
 
-    # Шаг 1: Просто скачиваем и настраиваем нужную версию Gradle 8.10
+    # Шаг 1: Настраиваем окружение Gradle 8.10
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
       with:
         gradle-version: '8.10'
 
-    # Шаг 2: Запускаем саму сборку отдельной командой через настроенный Gradle
+    # Шаг 2: Генерируем локальный скрипт gradlew, которого нет на iPad
+    - name: Generate Gradle Wrapper
+      run: |
+        gradle wrapper --gradle-version 8.10
+        chmod +x gradlew
+
+    # Шаг 3: Запускаем сборку ИМЕННО через сгенерированный ./gradlew
     - name: Build Fabric Mod
-      run: gradle build --no-daemon
+      run: ./gradlew build --no-daemon
 
     - name: Upload Finished Mod
       uses: actions/upload-artifact@v4
