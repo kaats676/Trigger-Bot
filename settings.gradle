@@ -1,10 +1,10 @@
 pluginManagement {
     repositories {
+        mavenCentral() // <-- ТЕПЕРЬ ОН НА ПЕРВОМ МЕСТЕ ДЛЯ ПОИСКА ЗАВИСИМОСТЕЙ ПЛАГИНА
         maven {
             name = 'Fabric'
             url = 'https://maven.fabricmc.net/'
         }
-        mavenCentral()
         gradlePluginPortal()
     }
 }
