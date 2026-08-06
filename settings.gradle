@@ -1,16 +1,1 @@
-pluginManagement {
-    repositories {
-        mavenCentral() // <-- ТЕПЕРЬ ОН НА ПЕРВОМ МЕСТЕ ДЛЯ ПОИСКА ЗАВИСИМОСТЕЙ ПЛАГИНА
-        maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
-        }
-        gradlePluginPortal()
-    }
-}
-
-plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
-}
-
 rootProject.name = 'Trigger-Bot'
